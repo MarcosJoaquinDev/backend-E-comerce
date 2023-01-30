@@ -18,7 +18,7 @@ const preference = {
     pending:'http://mypage.com/pending',
     failure:'http://mypage.com/failure'
   },
-  notification_url:"https://backend-e-comerce.vercel.app/ipn/mercadopago",
+  notification_url:"https://backend-e-comerce.vercel.app/api/ipn/mercadopago",
   external_reference:"",
 };
 type Product = {
