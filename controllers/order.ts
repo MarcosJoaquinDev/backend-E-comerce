@@ -13,8 +13,7 @@ type OrderDetails = {
   status?:string
 }
 export async function getMyOrders(email:string):Promise<OrderDetails[]>{
-  //const id = await User.findDocumentUserId(email);
-  const id = '7XBYeLcQgkBm0rGx0B3y';
+  const id = await User.findDocumentUserId(email);
   const order = new Order();
   const myOrders = await order.getOrdersUser(id);  
   return myOrders;

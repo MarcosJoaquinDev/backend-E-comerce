@@ -4,6 +4,7 @@ type queryPagination = {
   offset:number,
 }
 const MaxLimit = 10;
+//testear
 export const parseParamsFromQuery = (req:NextApiRequest):queryPagination=>{
   let queryLimit = parseInt(req.query.limit as string);
   let queryOffset = parseInt(req.query.offset as string);
@@ -14,6 +15,7 @@ export const parseParamsFromQuery = (req:NextApiRequest):queryPagination=>{
     offset:queryOffset
   }
 }
+//testear
 export const middlewareRequest = (callback)=>{
   return function(req:NextApiRequest,res:NextApiResponse){
     try{
@@ -26,5 +28,15 @@ export const middlewareRequest = (callback)=>{
     }catch(e){
       res.status(404).json(e);
     } 
+  }
+}
+// testear
+export function checkTheAddressFields(adress:string){
+  const fields = ['name','lastname','email','username'];
+  const check = fields.find( f => f == adress );
+  if(check){
+    return true;
+  }else{
+    throw 'Error: Este campo no corresponde con los datos de usuario';
   }
 }

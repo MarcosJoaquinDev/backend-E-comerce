@@ -1,28 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import methods from 'micro-method-router';
 import { middlewareAuth } from 'lib/middleware';
-import * as yup from 'yup';
+import { checkTheAddressFields } from 'lib/request'
+import { setUser } from 'controllers/user'
 
-let bodySchema = yup.object().shape({
-  adress: yup.string().required()
-});
-// falta resolver si lo parametros para modificar los datos del usuario
-// van a ser por query o por body
-const postMe = async (req:NextApiRequest,res:NextApiResponse)=>{
-  const { adress } = req.query;
-  res.json({test:true})
-}
-const handlerSchemaMiddleware = querySchema(postMe,bodySchema);
-
-function querySchema(handle,body){
-  return function(req:NextApiRequest,res:NextApiResponse){
-    console.log(req.query);
+const patchMe = async (req:NextApiRequest,res:NextApiResponse,token)=>{
+  const adress  = req.query.adress as string;
+  const {value} = req.body;
+  const email = token.email;
+  try{
+    checkTheAddressFields(adress);
+    const changes = { adress, value};
+    await setUser(email,changes);
+    res.json({adress,value});
+  }catch(err){
+    res.status(404).json(err);
   }
 }
-
-
-
 const handle = methods({
-  patch:handlerSchemaMiddleware,
+  patch:patchMe,
 })
 export default middlewareAuth(handle);

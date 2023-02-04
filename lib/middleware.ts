@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { decode } from 'lib/jwtoken';
 import parse from 'parse-bearer-token';
-
+// ver- testear
 export const middlewareAuth = (callback)=>{
   return function(req:NextApiRequest,res:NextApiResponse){
     const token = parse(req);    

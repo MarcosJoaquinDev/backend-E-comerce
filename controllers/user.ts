@@ -35,7 +35,11 @@ async function getUser(email:string):Promise<userData> {
   await user.pull();
   return user.data;
 } 
-async function setUser(email:string,modify:any):Promise<userData> {
+type addressValueChanges = {
+  adress:string,
+  value:string,
+} 
+async function setUser(email:string,modify:addressValueChanges):Promise<userData> {
   // modify Ejem : "name":"otro nombre"
   const id = await User.userId(email);
   if(!id){
@@ -44,9 +48,7 @@ async function setUser(email:string,modify:any):Promise<userData> {
   const user = new User(id);
   await user.pull();
   // traigo la data de firestore
-  user.data = {
-    ...modify,
-  }
+  user.data[modify.adress] = modify.value;
   await user.push();
   return user.data;
 }

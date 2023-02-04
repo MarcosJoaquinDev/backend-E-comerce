@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-
+// testear
 export function generate(obj){
   return jwt.sign(obj, process.env.JWT_SECRET);
 }
