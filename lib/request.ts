@@ -5,9 +5,9 @@ type queryPagination = {
 }
 const MaxLimit = 10;
 //testear
-export const parseParamsFromQuery = (req:NextApiRequest):queryPagination=>{
-  let queryLimit = parseInt(req.query.limit as string);
-  let queryOffset = parseInt(req.query.offset as string);
+export const parseParamsFromQuery = (limit:string,offset:string):queryPagination=>{
+  let queryLimit = parseInt(limit);
+  let queryOffset = parseInt(offset);
   queryLimit = queryLimit <= 0 || queryLimit > MaxLimit || isNaN(queryLimit) ?  MaxLimit : queryLimit;
   queryOffset = queryOffset < 0 || isNaN(queryOffset)? 0 : queryOffset;
   return {
