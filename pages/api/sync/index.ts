@@ -8,15 +8,14 @@ export default  methods({
     const {password} = req.body;
     const check = password === process.env.SYNC_PRODUCTS;
     if(!check){
-      res.status(401);
+      res.status(401).json({error:'Unauthorized'});
     }
     airtableDataBase('products').select({
     }).eachPage(async function page(records, fetchNextPage) {
         const arrayRecords = records.map(i => {
           return {objectID:i.id ,fields: i.fields}
         })
-        const response = await productsIndex.saveObjects(arrayRecords);  
-        console.log(response);
+        const response = await productsIndex.saveObjects(arrayRecords);
         fetchNextPage();
     
     }, function done(err) {
