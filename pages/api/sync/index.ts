@@ -5,6 +5,11 @@ import {productsIndex} from 'lib/data/algolia';
 
 export default  methods({
   async post(req:NextApiRequest,res:NextApiResponse){
+    const {password} = req.body;
+    const check = password === process.env.SYNC_PRODUCTS;
+    if(!check){
+      res.status(401);
+    }
     airtableDataBase('products').select({
     }).eachPage(async function page(records, fetchNextPage) {
         const arrayRecords = records.map(i => {

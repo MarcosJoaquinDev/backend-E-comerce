@@ -1,5 +1,4 @@
-import { parseParamsFromQuery } from './request'
-import type { NextApiRequest } from 'next';
+import { parseParamsFromQuery, checkTheAddressFields } from './request'
 import test from 'ava';
 
 test('1 parse params from query ',t=>{
@@ -66,5 +65,22 @@ test('5 parse params from query ',t=>{
   }
   t.deepEqual(output,outputParse);
 })
-
-
+test('cheak address field: check error',t=>{
+  const input = "this not a validate field";
+  try{
+    checkTheAddressFields(input);
+  }catch(err){
+    t.deepEqual("Error: Este campo no corresponde con los datos de usuario",err);
+  }
+})
+test('cheak address field: check validate',t=>{
+  const indexRandom = Math.floor(Math.random() * 2);
+  const validOpcions = ['name','lastname','username'];
+  const input = validOpcions[indexRandom];
+  try{
+    const output = checkTheAddressFields(input);
+    t.deepEqual(output,true);
+  }catch(err){
+    console.error(err);
+  }
+})

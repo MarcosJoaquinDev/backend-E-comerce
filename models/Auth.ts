@@ -1,9 +1,6 @@
 import { Record } from 'models/Record'
 import addMinutes from 'date-fns/addMinutes';
 import isAfter from 'date-fns/isAfter';
-import gen from 'random-seed';
-const seed = process.env.RANDOM_SEED;
-const random = gen.create(seed);
 
 type codeResult = {
   res:boolean;
@@ -16,7 +13,7 @@ export class Auth extends Record {
   }
   async resetCode(){
     const now = new Date();
-    this.data.code =  random.intBetween(10000,99999);
+    this.data.code = Math.floor(Math.random() * (89999) + 10000);
     this.data.expires = addMinutes(now,5);
     await this.push();
   }

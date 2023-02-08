@@ -4,7 +4,6 @@ type queryPagination = {
   offset:number,
 }
 const MaxLimit = 10;
-//testear
 export const parseParamsFromQuery = (limit:string,offset:string):queryPagination=>{
   let queryLimit = parseInt(limit);
   let queryOffset = parseInt(offset);
@@ -15,13 +14,12 @@ export const parseParamsFromQuery = (limit:string,offset:string):queryPagination
     offset:queryOffset
   }
 }
-//testear
 export const middlewareRequest = (callback)=>{
   return function(req:NextApiRequest,res:NextApiResponse){
     try{
       const idParam = parseInt(req.query.id as string);
       if(isNaN(idParam)){
-       throw 'Error: no es un numero';
+       throw 'Error: invalid param';
       }else{
         callback(req,res,idParam);
       }
@@ -30,9 +28,8 @@ export const middlewareRequest = (callback)=>{
     } 
   }
 }
-// testear
 export function checkTheAddressFields(adress:string){
-  const fields = ['name','lastname','email','username'];
+  const fields = ['name','lastname','username'];
   const check = fields.find( f => f == adress );
   if(check){
     return true;

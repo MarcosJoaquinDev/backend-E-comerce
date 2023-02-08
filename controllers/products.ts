@@ -6,10 +6,10 @@ type ProductsFields = {
   stock:number,
   description:string
 }
-export async function searchProducts(limit:number,offset:number):Promise<ProductsFields>{
-  const results:any = await productsIndex.search('',{
-    hitsPerPage: limit,
-    offset
+export async function searchProducts(query:string,limit:number,offset:number):Promise<ProductsFields>{
+  const results:any = await productsIndex.search(query,{
+    offset,
+    length:limit
   })
   const hitsResults = results.hits.map( hit => hit.fields); 
   return hitsResults;

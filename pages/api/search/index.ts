@@ -5,12 +5,11 @@ import { searchProducts } from 'controllers/products'
 
 export default methods({
   get:async (req:NextApiRequest,res:NextApiResponse)=>{ 
-    console.log(req);
-    
     const queryLimit  = req.query.limit as string;
     const queryOffset  = req.query.offset as string;
+    const queryProduct = req.query.q as string;
     const { limit, offset } = parseParamsFromQuery(queryLimit,queryOffset);
-    const response = await searchProducts(limit,offset);
+    const response = await searchProducts(queryProduct,limit,offset);
     res.json(response);
   }
 })

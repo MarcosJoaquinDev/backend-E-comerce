@@ -33,7 +33,7 @@ export class Record {
     const newAuth = await authCollection.add({
         email,
         userId:newUser.id,
-        code:'',
+        code:0,
         expires:new Date()
       });
       return newAuth

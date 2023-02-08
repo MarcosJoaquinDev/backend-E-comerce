@@ -31,6 +31,15 @@ function authTokenBodySchema(callback){
     }
   }
 }
+let UserDataSchema = yup.object().shape({
+  email: yup.string(),
+  name: yup.string(),
+  lastname: yup.string(),
+  username: yup.string(),
+}).noUnknown(true).strict();
 
+let ValueAddressSchema = yup.object().shape({
+  value: yup.string().required(),
+}).noUnknown(true).strict();
 
-export { authBodySchema, authTokenBodySchema }
+export { authBodySchema, authTokenBodySchema ,UserDataSchema ,ValueAddressSchema}

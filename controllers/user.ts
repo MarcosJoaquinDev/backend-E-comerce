@@ -35,11 +35,16 @@ async function getUser(email:string):Promise<userData> {
   await user.pull();
   return user.data;
 } 
-type addressValueChanges = {
+type AddressValueChanges = {
   adress:string,
   value:string,
 } 
-async function setUser(email:string,modify:addressValueChanges):Promise<userData> {
+type ValueChanges = {
+  name?:string,
+  lastname?:string,
+  username?:string,
+} 
+async function setUser(email:string,modify:AddressValueChanges):Promise<userData> {
   // modify Ejem : "name":"otro nombre"
   const id = await User.userId(email);
   if(!id){
@@ -52,10 +57,30 @@ async function setUser(email:string,modify:addressValueChanges):Promise<userData
   await user.push();
   return user.data;
 }
+async function setUserData(email:string,modify:ValueChanges):Promise<userData> {
+  // modify Ejem : "name":"otro nombre"
+  const id = await User.userId(email);
+  if(!id){
+    return {email: 'Error con el email',orders:null }
+  }
+  const user = new User(id);
+  await user.pull();
+  // traigo la data de firestore
+  for (const m in modify) {
+    modify[m]?
+    user.data = {
+      ...user.data,
+      [m]:modify[m]
+    }:
+    ''
+  }
+  await user.push();
+  return user.data;
+}
 async function setNewOrderInUserData(userId:string,orderId:string){
   const user = new User(userId);
   await user.pull();
   user.data.orders.push(orderId)
   await user.push();
 }
-export { userToken, getUser, setUser, setNewOrderInUserData }
+export { userToken, getUser, setUser, setNewOrderInUserData, setUserData }
