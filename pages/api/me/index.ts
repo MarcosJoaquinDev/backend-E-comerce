@@ -3,6 +3,7 @@ import { middlewareAuth } from 'lib/middleware';
 import { UserDataSchema } from 'lib/schema'
 import methods from 'micro-method-router';
 import  { getUser, setUserData } from 'controllers/user'
+import { handlerCORS } from 'lib/middleware';
 
 const handle = methods({
   async get(req:NextApiRequest,res:NextApiResponse,token){
@@ -20,4 +21,5 @@ const handle = methods({
   },
 })
 
-export default middlewareAuth(handle);
+const handleMe =  middlewareAuth(handle);
+export default handlerCORS(handleMe);

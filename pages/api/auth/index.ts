@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import methods from 'micro-method-router';
 import { sendCode } from 'controllers/auth';
-import { authBodySchema } from 'lib/schema'
+import { authBodySchema } from 'lib/schema';
+import { handlerCORS } from 'lib/middleware';
 
 const postAuthMe = async (req:NextApiRequest,res:NextApiResponse)=>{
   const { email } = req.body;
@@ -13,6 +14,7 @@ const postAuthMe = async (req:NextApiRequest,res:NextApiResponse)=>{
   }
 }
 const postAuthMeWithValidate = authBodySchema(postAuthMe);
-export default methods({
+const handle = methods({
   post:postAuthMeWithValidate
 })
+export default handlerCORS(handle)

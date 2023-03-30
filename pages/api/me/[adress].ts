@@ -4,6 +4,7 @@ import { middlewareAuth } from 'lib/middleware';
 import { checkTheAddressFields } from 'lib/request'
 import { ValueAddressSchema } from 'lib/schema'
 import { setUser } from 'controllers/user'
+import { handlerCORS } from 'lib/middleware';
 
 const patchMe = async (req:NextApiRequest,res:NextApiResponse,token)=>{
   const adress  = req.query.adress as string;
@@ -23,4 +24,5 @@ const patchMe = async (req:NextApiRequest,res:NextApiResponse,token)=>{
 const handle = methods({
   patch:patchMe,
 })
-export default middlewareAuth(handle);
+const handleAdress = middlewareAuth(handle);
+export default handlerCORS(handleAdress);

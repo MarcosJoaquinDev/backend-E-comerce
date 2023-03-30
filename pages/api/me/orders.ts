@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { middlewareAuth } from 'lib/middleware';
 import methods from 'micro-method-router';
 import { getMyOrders, createNewOrder } from 'controllers/order'
+import { handlerCORS } from 'lib/middleware';
 
 const handle = methods({
   async get(req:NextApiRequest,res:NextApiResponse,token){
@@ -21,4 +22,5 @@ const handle = methods({
   }
 })
 
-export default middlewareAuth(handle);
+const handleOrder = middlewareAuth(handle);
+export default handlerCORS(handleOrder);
