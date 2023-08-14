@@ -1,11 +1,11 @@
 import { orderCollection } from 'lib/data/firebase';
 type OrderDetails = {
-  productDetails: {
+  product: {
     title:string
     description: string,
     price:number,
   }
-  status?:string,
+  status:string,
   userId:string,
 }
 export class Order {
@@ -24,12 +24,12 @@ export class Order {
   private async push(){
    await this.ref.update(this.data);
   }
-  getOrdersUser = async (userId:string):Promise<OrderDetails[]> => { 
+  getOrdersUser = async (userId:string):Promise<OrderDetails[]> => {
     const order = await this.collection.where('userId','==',userId).get();
     const orderDetails = order.docs.map( i =>{
       const {title, description, price} = i.data().productDetails;
-      return { userId:i.data().userId,productDetails:{title, description, price} }
-    } ); 
+      return { userId:i.data().userId,product:{title, description, price}, status:i.data().status }
+    } );
     return orderDetails;
   }
   async getOrderById():Promise<OrderDetails>{

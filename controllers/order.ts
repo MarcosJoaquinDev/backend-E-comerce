@@ -4,7 +4,7 @@ import {searchProductsById} from 'controllers/products'
 import { setNewOrderInUserData } from 'controllers/user'
 import { createaPreference } from 'lib/mercadopago'
 type OrderDetails = {
-  productDetails: {
+  product: {
     title:string
     description: string,
     price:number,
@@ -15,7 +15,7 @@ type OrderDetails = {
 export async function getMyOrders(email:string):Promise<OrderDetails[]>{
   const id = await User.findDocumentUserId(email);
   const order = new Order();
-  const myOrders = await order.getOrdersUser(id);  
+  const myOrders = await order.getOrdersUser(id);
   return myOrders;
 }
 export async function getOrderByID(orderId:string):Promise<OrderDetails>{
@@ -29,7 +29,7 @@ export async function createNewOrder(email:string,productId:number):Promise<stri
     const productDetail = await searchProductsById(productId);
     const { title, description, price } = productDetail;
     const order = {
-      productDetails: {
+      product: {
         title,
         description,
         price,
@@ -40,7 +40,7 @@ export async function createNewOrder(email:string,productId:number):Promise<stri
     const newOrder = new Order();
     const orderId = await newOrder.createAPurchaseOrder(order);
     await setNewOrderInUserData(userId,orderId);
-    const urlMercadoPago = await createaPreference(orderId,order.productDetails);
+    const urlMercadoPago = await createaPreference(orderId,order.product);
     return urlMercadoPago;
   }catch(err){
     throw 'Not find Product'
