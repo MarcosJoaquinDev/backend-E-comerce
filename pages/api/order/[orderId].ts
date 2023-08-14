@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import methods from 'micro-method-router';
 import { getOrderByID } from 'controllers/order';
-export default methods({
+import { handlerCORS } from 'lib/middleware';
+const handle =  methods({
   async get(req:NextApiRequest,res:NextApiResponse){
     const order = req.query.orderId as string;
     try{
@@ -12,3 +13,4 @@ export default methods({
     }
   }
 })
+export default handlerCORS(handle);
