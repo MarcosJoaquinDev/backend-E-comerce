@@ -32,10 +32,9 @@ function authTokenBodySchema(callback){
   }
 }
 let UserDataSchema = yup.object().shape({
-  email: yup.string(),
-  name: yup.string(),
-  lastname: yup.string(),
   username: yup.string(),
+  adress: yup.string(),
+  phone: yup.number(),
 }).noUnknown(true).strict();
 
 let ValueAddressSchema = yup.object().shape({

@@ -25,11 +25,11 @@ export const middlewareRequest = (callback)=>{
       }
     }catch(e){
       res.status(404).json(e);
-    } 
+    }
   }
 }
 export function checkTheAddressFields(adress:string){
-  const fields = ['name','lastname','username'];
+  const fields = ['username','adress','phone'];
   const check = fields.find( f => f == adress );
   if(check){
     return true;
