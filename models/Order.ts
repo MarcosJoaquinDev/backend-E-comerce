@@ -28,7 +28,7 @@ export class Order {
   getOrdersUser = async (userId:string):Promise<OrderDetails[]> => {
     const order = await this.collection.where('userId','==',userId).get();
     const orderDetails = order.docs.map( i =>{
-      const {title, description, price} = i.data().productDetails;
+      const {title, description, price} = i.data().product;
       return { userId:i.data().userId,product:{title, description, price}, status:i.data().status }
     } );
     return orderDetails;
