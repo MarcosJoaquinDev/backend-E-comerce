@@ -8,6 +8,7 @@ type OrderDetails = {
     title:string
     description: string,
     price:number,
+    image?:string,
   }
   userId:string,
   status?:string
@@ -27,12 +28,13 @@ export async function createNewOrder(email:string,productId:number):Promise<stri
   const userId = await User.userId(email);
   try{
     const productDetail = await searchProductsById(productId);
-    const { title, description, price } = productDetail;
+    const { title, description, price, image } = productDetail;
     const order = {
       product: {
         title,
         description,
         price,
+        image,
       },
       status:'',
       userId,

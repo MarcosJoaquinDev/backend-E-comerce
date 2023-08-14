@@ -4,6 +4,7 @@ type OrderDetails = {
     title:string
     description: string,
     price:number,
+    image?:string
   }
   status:string,
   userId:string,
