@@ -3,7 +3,7 @@ type queryPagination = {
   limit:number,
   offset:number,
 }
-const MaxLimit = 10;
+const MaxLimit = 5;
 export const parseParamsFromQuery = (limit:string,offset:string):queryPagination=>{
   let queryLimit = parseInt(limit);
   let queryOffset = parseInt(offset);
