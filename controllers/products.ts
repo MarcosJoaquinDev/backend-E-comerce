@@ -15,6 +15,14 @@ export async function searchProducts(query:string,limit:number,offset:number):Pr
   const hitsResults = results.hits.map( hit => hit.fields);
   return hitsResults;
 }
+export async function searchProductsByCategory(category:string,limit:number,offset:number):Promise<ProductsFields>{
+  const results:any = await productsIndex.search(category,{
+    offset,
+    length:limit
+  })
+  const hitsResults = results.hits.map( hit => hit.fields);
+  return hitsResults
+}
 export const searchProductsById = async(productId:number):Promise<ProductsFields> =>{
   try{
     return (await productsIndex.search(productId.toString()) as any).hits[0].fields;
