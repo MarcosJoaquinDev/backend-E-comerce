@@ -9,6 +9,7 @@ type ProductsFields = {
 }
 type SearchProductsQuery = {
   results:number,
+  offset?:number,
   products:ProductsFields,
 }
 export async function searchProducts(query:string,limit:number,offset:number):Promise<SearchProductsQuery>{
@@ -21,13 +22,13 @@ export async function searchProducts(query:string,limit:number,offset:number):Pr
     results: result.nbHits,
     products:hitsResults};
 }
-export async function searchProductsByCategory(category:string,limit:number,offset:number):Promise<ProductsFields>{
+export async function searchProductsByCategory(category:string,limit:number,offset:number):Promise<SearchProductsQuery>{
   const results:any = await productsIndex.search(category,{
     offset,
     length:limit
   })
   const hitsResults = results.hits.map( hit => hit.fields);
-  return hitsResults
+  return {products:hitsResults,offset,results:results.nbHits}
 }
 export const searchProductsById = async(productId:number):Promise<ProductsFields> =>{
   try{
