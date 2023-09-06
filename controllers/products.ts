@@ -7,13 +7,19 @@ type ProductsFields = {
   description:string
   image:string,
 }
-export async function searchProducts(query:string,limit:number,offset:number):Promise<ProductsFields>{
-  const results:any = await productsIndex.search(query,{
+type SearchProductsQuery = {
+  results:number,
+  products:ProductsFields,
+}
+export async function searchProducts(query:string,limit:number,offset:number):Promise<SearchProductsQuery>{
+  const result:any = await productsIndex.search(query,{
     offset,
     length:limit
   })
-  const hitsResults = results.hits.map( hit => hit.fields);
-  return hitsResults;
+  const hitsResults = result.hits.map( hit => hit.fields);
+  return {
+    results: result.nbHits,
+    products:hitsResults};
 }
 export async function searchProductsByCategory(category:string,limit:number,offset:number):Promise<ProductsFields>{
   const results:any = await productsIndex.search(category,{
